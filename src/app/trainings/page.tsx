@@ -1,16 +1,25 @@
-import React from 'react';
+'use client';
 
-import { TrainingArray } from '@/types';
+import React, { useEffect } from 'react';
 
-const getTrainings = async (): Promise<TrainingArray> => {
-  const response = await fetch('http://localhost:5000/trainings');
+import { useRouter } from 'next/navigation';
 
-  return response.json();
-};
+import { getTrainings } from '../actions';
 
-export default async function TrainingPage() {
-  const Trainings = await getTrainings();
-  console.log(Trainings);
+export default function TrainingPage() {
+  const { push } = useRouter();
+
+  useEffect(() => {
+    const fetchAndRedirect = async () => {
+      const Trainings = await getTrainings();
+      if (Trainings.length > 0) {
+        const LastestTraining = Trainings[Trainings.length - 1];
+        push(`/trainings/${LastestTraining.id}`);
+      }
+    };
+
+    fetchAndRedirect();
+  }, []);
 
   return <div>Hammed aabass</div>;
 }
