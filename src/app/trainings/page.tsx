@@ -1,8 +1,16 @@
 import React from 'react';
 
-type pageProps = {};
+import { TrainingArray } from '@/types';
 
-const page: React.FC<pageProps> = () => {
-  return <div>Have a good coding</div>;
+const getTrainings = async (): Promise<TrainingArray> => {
+  const response = await fetch('http://localhost:5000/trainings');
+
+  return response.json();
 };
-export default page;
+
+export default async function TrainingPage() {
+  const Trainings = await getTrainings();
+  console.log(Trainings);
+
+  return <div>Hammed aabass</div>;
+}
