@@ -1,17 +1,29 @@
 'use client';
 
-import react from 'react';
 import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-function TrainingItem() {
+import { Test } from '@/lib/constants';
+import { TrainingItem } from '@/types';
+
+function Training({ Training }: Readonly<{ Training: TrainingItem }>) {
+  const pathname = usePathname();
+  const isActive = `/trainings/${Training.id}` == pathname;
+  console.log(pathname);
+  console.log(`/trainings/${Training.id}`);
   return (
-    <Link href={'#'} className="flex flex-row w-full h-[31px] bg-white text-[10px] font-medium items-center p-2">
+    <Link
+      href={`/trainings/${Training.id}`}
+      className={`flex flex-row w-full h-[31px]  text-[11px] ${isActive ? 'bg-red-600' : 'bg-white'} font-medium items-center p-2 rounded`}>
       <div className="flex w-full justify-between">
-        <div>
-          <span>#1</span>
-          <span className="mx-4">92%</span>
+        <div className="flex flex-row">
+          <span>{`#${Training.id}`}</span>
+          <div className="flex flex-row mx-2 space-x-1 justify-center items-center">
+            <CircularProgressBar size={12} progress={Training.progress} />
+            <span>{`${Training.progress}%`}</span>
+          </div>
         </div>
         <div>12/01/2022 à 14h34</div>
       </div>
@@ -37,8 +49,7 @@ export default function StatData() {
           <h1 className="text-4xl">213</h1>
         </div>
       </div>
-      <TrainingItem />
-      <CircularProgressBar progress={200} />
+      <Training Training={Test} />
     </div>
   );
 }
