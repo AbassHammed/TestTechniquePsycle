@@ -1,6 +1,7 @@
 export type TrainingItem = {
   id: number;
   name: string;
+  created_at: string;
   progress: number;
   logs: string;
   analysis_id: number;

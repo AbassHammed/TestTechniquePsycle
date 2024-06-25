@@ -5,6 +5,7 @@ export const BackendUrl = 'http://localhost:5000/';
 export const Test: TrainingItem = {
   id: 1,
   name: 'Apprentissage numéro #1',
+  created_at: '2024-06-25T19:07:47.629578',
   progress: 100,
   logs: "Début de l'apprentissage\rProgression: 14%\rProgression: 21%\rProgression: 32%\rProgression: 45%\rProgression: 51%\rProgression: 64%\rProgression: 76%\rProgression: 87%\rProgression: 100%\rFin de l'apprentissage",
   analysis_id: 1,
