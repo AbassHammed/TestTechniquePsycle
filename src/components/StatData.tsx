@@ -48,7 +48,7 @@ const StatData: FC<StatDataProps> = ({ analysisID }) => {
   }
 
   return (
-    <div className="flex-none relative h-full w-[265px] bg-[#eeeeee] px-6">
+    <div className="flex-none sticky h-screen top-0 right-0 overflow-y-auto w-[265px] bg-[#eeeeee] px-6">
       <div className="flex flex-col items-start justify-start my-2 space-y-2">
         <h4 className="text-left uppercase font-medium text-[10px]">Statisques</h4>
         <h2 className="text-left font-medium text-xl">{analysis?.name}</h2>
@@ -99,13 +99,13 @@ function Loading() {
           <div className="h-16 bg-gray-300 w-16 rounded" />
         </div>
         <div className="flex font-medium flex-col items-center justify-center space-y-2">
-          <span className="h-4 bg-gray-300 w-16 rounded" />
-          <h1 className="h-16 bg-gray-300 w-16 rounded" />
+          <div className="h-4 bg-gray-300 w-16 rounded" />
+          <div className="h-16 bg-gray-300 w-16 rounded" />
         </div>
       </div>
 
       <div className="flex flex-col w-full space-y-2 p-4">
-        <h1 className="flex w-24 h-6 bg-gray-300 rounded"></h1>
+        <div className="flex w-24 h-6 bg-gray-300 rounded" />
         <div className="flex w-60 h-8 bg-gray-300 rounded" />
         <div className="flex w-60 h-8 bg-gray-300 rounded" />
         <div className="flex w-60 h-8 bg-gray-300 rounded" />
