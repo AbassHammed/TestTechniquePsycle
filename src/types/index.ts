@@ -56,4 +56,8 @@ export type Analysis = {
   test_set: number[];
 };
 
+export type countObj = {
+  count: number
+}
+
 export type AnalysisArray = Analysis[];
