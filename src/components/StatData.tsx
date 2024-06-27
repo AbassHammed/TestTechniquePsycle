@@ -2,6 +2,8 @@
 
 import { FC, useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { getAnalysis, getLabelsCount, postTrainingData } from '@/app/actions';
 import { Training } from '@/components';
 import useTrainings from '@/hooks/useTrainings';
@@ -14,13 +16,15 @@ interface StatDataProps {
 
 const StatData: FC<StatDataProps> = ({ analysisID }) => {
   const { trainings } = useTrainings();
+  const { push } = useRouter();
   const [analysis, setAnalysis] = useState<Analysis>();
   const [isLoading, setIsLoading] = useState(true);
   const [labels, setLabels] = useState<string[]>(['']);
   const [labelCount, setLabelCount] = useState({ first: 0, second: 0 });
 
   const handlePost = async () => {
-    await postTrainingData();
+    const res = await postTrainingData();
+    push(`/trainings/${res.id}`);
   };
 
   useEffect(() => {

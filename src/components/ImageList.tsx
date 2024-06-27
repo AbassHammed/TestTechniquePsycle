@@ -20,9 +20,11 @@ const ImageCard: FC<ImageCardProps> = ({ CardData }) => (
       alt={`${CardData.image.split('.')[0]} image`}
       className="rounded"
     />
-    <div className="flex justify-between items-center text-black text-sm font-medium">
+    <div className="flex w-full justify-between items-center text-black text-sm font-medium px-2 uppercase">
       {CardData.annotations.map((annotation: Annotation) => (
-        <span key={annotation.annotation.name}>{annotation.annotation.name}</span>
+        <span className="whitespace-nowrap leading-normal" key={annotation.annotation.name}>
+          {annotation.annotation.name}
+        </span>
       ))}
       <span>
         {new Date(CardData.created_at).toLocaleString('fr-FR', {
@@ -40,6 +42,7 @@ const ImageCard: FC<ImageCardProps> = ({ CardData }) => (
 
 const ImageList = () => {
   const [data, setData] = useState<DataArray>([]);
+  const [filter, setFilter] = useState<'all' | 'bonne' | 'cassée'>('all');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,10 +53,37 @@ const ImageList = () => {
     fetchData();
   }, []);
 
+  const filteredData = data.filter(card => {
+    if (filter === 'all') {
+      return true;
+    }
+    return card.annotations.some(anno => anno.annotation.name === filter);
+  });
+
   return (
-    <div className="flex items-center justify-center space-y-3 w-full">
+    <div className="flex flex-col items-center space-y-3 w-full py-2">
+      <div className="flex w-full justify-start items-center px-4 space-x-[2px]">
+        <button
+          className={`flex h-[35px] w-[55px] justify-center items-center rounded-sm ring-1 uppercase text-[10px] font-medium ${
+            filter === 'bonne'
+              ? 'ring-[#597dfd] bg-gray-200 text-[#597dfd]'
+              : 'bg-gray-200 text-black'
+          }`}
+          onClick={() => setFilter('bonne')}>
+          bonne
+        </button>
+        <button
+          className={`flex h-[35px] w-[55px] justify-center items-center rounded-sm ring-1 uppercase text-[10px] font-medium ${
+            filter === 'cassée'
+              ? 'ring-[#597dfd] bg-gray-200 text-[#597dfd]'
+              : 'bg-gray-200 text-black'
+          }`}
+          onClick={() => setFilter('cassée')}>
+          cassée
+        </button>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
-        {data.map(card => (
+        {filteredData.map(card => (
           <ImageCard key={card.id} CardData={card} />
         ))}
       </div>

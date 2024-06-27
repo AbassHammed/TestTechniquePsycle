@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 'use server';
 
 import { Analysis, countObj, DataArray, TrainingArray, TrainingItem } from '@/types';
@@ -34,16 +35,20 @@ export const getData = async (): Promise<DataArray> => {
   return response.json();
 };
 
-export async function postTrainingData(): Promise<void> {
+export const getTrainingResult = async (TrainingID: string) => {
+  const response = await fetch(`http://localhost:5000/trainings/${TrainingID}/result`);
+
+  return response.json();
+};
+
+export async function postTrainingData(): Promise<TrainingItem> {
   try {
     const response = await fetch('http://localhost:5000/trainings', {
       method: 'POST',
     });
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
+    return response.json();
   } catch (error) {
-    console.error('Error in posting data:', error);
+    throw new Error("Erreur lors de création de l'apprentissage");
   }
 }

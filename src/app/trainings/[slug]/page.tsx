@@ -1,19 +1,39 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { getTraining } from '@/app/actions';
 import { ImageList, NavBar, StatData, TopBar, TrainingInfo } from '@/components';
+import { getAllTrainingResultWithId } from '@/lib/utils';
+import { TrainingItem } from '@/types';
 
 export default function Page({ params }: Readonly<{ params: { slug: string } }>) {
+  const [analysis, setAnalysis] = useState<TrainingItem>();
+
+  useEffect(() => {
+    const fetchAnalysis = async () => {
+      const data = await getTraining(params.slug);
+      setAnalysis(data);
+      const test = await getAllTrainingResultWithId();
+      console.log(test);
+    };
+
+    fetchAnalysis();
+  }, [params.slug]);
+
+  if (!analysis) {
+    return <div>Loading</div>;
+  }
+
   return (
     <div className="flex flex-row h-screen">
       <NavBar />
       <div className="flex-auto space-y-4 max-h-screen overflow-y-auto">
-        <TopBar TrainingName={`Apprentissage #${params.slug}`} />
+        <TopBar TrainingName={analysis.name} />
         <TrainingInfo TrainingID={params.slug} />
         <ImageList />
       </div>
-      <StatData analysisID="1" />
+      <StatData analysisID={analysis.analysis_id.toString()} />
     </div>
   );
 }

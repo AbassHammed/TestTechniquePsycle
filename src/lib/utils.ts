@@ -1,4 +1,5 @@
-import { Analysis } from '@/types';
+import { getTrainingResult, getTrainings } from '@/app/actions';
+import { Analysis, TrainingResult } from '@/types';
 
 /**
  * Returns an array of label names from an Analysis object.
@@ -16,4 +17,20 @@ export function getLablesNames(analysis: Analysis): string[] {
   }
 
   return labelNames;
+}
+
+export async function getAllTrainingResultWithId() {
+  const TrainingResults: TrainingResult[] = [];
+
+  const Trainings = await getTrainings();
+
+  for (let index = 0; index < Trainings.length; index++) {
+    const TrainingResult = {
+      id: Trainings[index].id,
+      ...(await getTrainingResult(Trainings[index].id.toString())),
+    };
+    TrainingResults.push(TrainingResult);
+  }
+
+  return TrainingResults;
 }

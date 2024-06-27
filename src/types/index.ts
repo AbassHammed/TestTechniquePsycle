@@ -12,12 +12,13 @@ export type TrainingItem = {
 export type TrainingArray = TrainingItem[];
 
 export type SetItem = {
-  classes: [string, string];
-  confusion_matrix: [[number, number], [number, number]];
-  f1_score: [number, number];
+  classes: string[];
+  confusion_matrix: number[][];
+  'f1-score': number[];
 };
 
 export type TrainingResult = {
+  id: string;
   train_set: SetItem;
   validation_set: SetItem;
 };
@@ -57,7 +58,7 @@ export type Analysis = {
 };
 
 export type countObj = {
-  count: number
-}
+  count: number;
+};
 
 export type AnalysisArray = Analysis[];
