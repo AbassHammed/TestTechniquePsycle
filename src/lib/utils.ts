@@ -12,9 +12,7 @@ export function getLablesNames(analysis: Analysis): string[] {
   const data = analysis.labels;
 
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      labelNames.push(data[key].name);
-    }
+    labelNames.push(data[key].name);
   }
 
   return labelNames;

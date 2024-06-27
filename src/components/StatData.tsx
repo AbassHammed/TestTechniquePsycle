@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { getAnalysis, getLabelsCount } from '@/app/actions';
-import Training from '@/components/Trainings';
+import Training from '@/components/Training';
 import useTrainings from '@/hooks/useTrainings';
 import { getLablesNames } from '@/lib/utils';
 import { Analysis } from '@/types';

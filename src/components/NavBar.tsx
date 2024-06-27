@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function NavBar() {
   return (
-    <div className="flex-none relative h-screen top-0 left-0 w-[42px] bg-[#333] items-center">
+    <nav className="flex-none relative h-screen top-0 left-0 w-[42px] bg-[#333] items-center">
       <div className="flex flex-col items-center justify-center p-4 space-y-4">
         <Link href={'/'}>
           <svg
@@ -77,6 +77,6 @@ export default function NavBar() {
           </svg>
         </Link>
       </div>
-    </div>
+    </nav>
   );
 }
