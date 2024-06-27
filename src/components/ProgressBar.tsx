@@ -15,7 +15,7 @@ interface CircularProgressBarProps {
  * @param {number} [props.size=20] - The size of the bar, in pixels.
  * @return {JSX.Element} The rendered circular progress bar component.
  */
-export const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ progress, size = 20 }) => {
+const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ progress, size = 20 }) => {
   const [normalizedProgress, setNormalizedProgress] = useState(0);
 
   useEffect(() => {
@@ -54,3 +54,5 @@ export const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ progre
     </svg>
   );
 };
+
+export default CircularProgressBar;

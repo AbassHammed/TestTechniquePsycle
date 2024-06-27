@@ -11,20 +11,20 @@ const useTraining = (TrainingID: string) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const fetchTraining = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`http://localhost:5000/trainings/${TrainingID}`);
-      const data = await response.json();
-      setTraining(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err as Error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchTraining = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:5000/trainings/${TrainingID}`);
+        const data = await response.json();
+        setTraining(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err as Error);
+        setLoading(false);
+      }
+    };
+
     fetchTraining();
 
     const intervalId = setInterval(() => {
@@ -32,7 +32,7 @@ const useTraining = (TrainingID: string) => {
     }, POLLING_INTERVAL);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [TrainingID]);
 
   return { training, loading, error };
 };

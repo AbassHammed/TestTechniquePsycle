@@ -7,9 +7,38 @@ import Image from 'next/image';
 import { getData } from '@/app/actions';
 import { Annotation, DataArray, DataItem } from '@/types';
 
-type ImageListProps = {};
+interface ImageCardProps {
+  CardData: DataItem;
+}
 
-const ImageList: React.FC<ImageListProps> = () => {
+const ImageCard: FC<ImageCardProps> = ({ CardData }) => (
+  <div className="flex flex-col justify-center items-center rounded bg-gray-200 w-[274px] h-[230px] p-1 space-y-1">
+    <Image
+      width={255}
+      height={202}
+      src={`http://localhost:5000/data/${CardData.id}/image`}
+      alt={`${CardData.image.split('.')[0]} image`}
+      className="rounded"
+    />
+    <div className="flex justify-between items-center text-black text-sm font-medium">
+      {CardData.annotations.map((annotation: Annotation) => (
+        <span key={annotation.annotation.name}>{annotation.annotation.name}</span>
+      ))}
+      <span>
+        {new Date(CardData.created_at).toLocaleString('fr-FR', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        })}
+      </span>
+    </div>
+  </div>
+);
+
+const ImageList = () => {
   const [data, setData] = useState<DataArray>([]);
 
   useEffect(() => {
@@ -32,34 +61,3 @@ const ImageList: React.FC<ImageListProps> = () => {
   );
 };
 export default ImageList;
-
-interface ImageCardProps {
-  CardData: DataItem;
-}
-
-const ImageCard: FC<ImageCardProps> = ({ CardData }) => (
-  <div className="flex flex-col justify-center items-center rounded bg-gray-200 w-[274px] h-[230px] p-1 space-y-1">
-    <Image
-      width={255}
-      height={202}
-      src={`http://localhost:5000/data/${CardData.id}/image`}
-      alt={`${CardData.image.split('.')[0]} image`}
-      className="rounded"
-    />
-    <div className="flex justify-between items-center text-black text-sm font-medium">
-      {CardData.annotations.map((annotation: Annotation, idx) => (
-        <span key={idx}>{annotation.annotation.name}</span>
-      ))}
-      <span>
-        {new Date(CardData.created_at).toLocaleString('fr-FR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })}
-      </span>
-    </div>
-  </div>
-);

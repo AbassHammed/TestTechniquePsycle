@@ -28,7 +28,7 @@ const TrainingInfo: React.FC<TrainingInfoProps> = ({ TrainingID }) => {
 
       <div className="flex relative my-3">
         <button
-          className="absolute right-0 h-7 w-28 bg-gray-200 rounded justify-center items-center uppercase font-medium text-[10px]"
+          className="absolute right-0 h-7 w-28 bg-gray-200 rounded justify-center items-center uppercase font-medium text-[10px] border border-gray-300"
           onClick={() => setShowLog(prev => !prev)}>
           {showLog ? 'cacher les logs' : 'afficher les logs'}
         </button>
@@ -37,7 +37,9 @@ const TrainingInfo: React.FC<TrainingInfoProps> = ({ TrainingID }) => {
       {showLog && (
         <div className="flex items-center flex-col justify-start rounded-md bg-gray-200 mt-8 p-4">
           {logLines?.map((line, idx) => (
-            <p className="text-left text-black font-medium text-sm w-full mb-1" key={idx}>
+            <p
+              className="text-left text-black font-medium text-sm w-full mb-1"
+              key={`${line} - ${idx}`}>
               {line}
             </p>
           ))}

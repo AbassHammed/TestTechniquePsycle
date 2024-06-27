@@ -2,8 +2,8 @@
 
 import { FC, useEffect, useState } from 'react';
 
-import { getAnalysis, getLabelsCount } from '@/app/actions';
-import Training from '@/components/Training';
+import { getAnalysis, getLabelsCount, postTrainingData } from '@/app/actions';
+import { Training } from '@/components';
 import useTrainings from '@/hooks/useTrainings';
 import { getLablesNames } from '@/lib/utils';
 import { Analysis } from '@/types';
@@ -18,6 +18,10 @@ const StatData: FC<StatDataProps> = ({ analysisID }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [labels, setLabels] = useState<string[]>(['']);
   const [labelCount, setLabelCount] = useState({ first: 0, second: 0 });
+
+  const handlePost = async () => {
+    await postTrainingData();
+  };
 
   useEffect(() => {
     const fetchAnalysis = async () => {
@@ -75,6 +79,7 @@ const StatData: FC<StatDataProps> = ({ analysisID }) => {
       <div className="flex inset-x-6 bottom-0 my-4 absolute">
         <button
           disabled={trainings[trainings.length - 1]?.progress < 100}
+          onClick={handlePost}
           className="flex h-[35px] w-full justify-center items-center rounded bg-[#597dfd] uppercase text-[12px] font-medium text-white">
           lancer un apprentissage
         </button>

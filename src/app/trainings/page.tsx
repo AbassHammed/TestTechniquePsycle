@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { getTrainings } from '../actions';
+import { getTrainings } from '@/app/actions';
 
 export default function TrainingPage() {
   const { push } = useRouter();

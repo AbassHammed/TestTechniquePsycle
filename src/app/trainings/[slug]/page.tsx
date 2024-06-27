@@ -2,11 +2,7 @@
 
 import React from 'react';
 
-import ImageList from '@/components/ImageList';
-import NavBar from '@/components/NavBar';
-import StatData from '@/components/StatData';
-import TopBar from '@/components/TopBar';
-import TrainingInfo from '@/components/TrainingInfo';
+import { ImageList, NavBar, StatData, TopBar, TrainingInfo } from '@/components';
 
 export default function Page({ params }: Readonly<{ params: { slug: string } }>) {
   return (

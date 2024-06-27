@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { CircularProgressBar } from '@/components/ProgressBar';
+import { CircularProgressBar } from '@/components';
 import { TrainingItem } from '@/types';
 
 export default function Training({ Training }: Readonly<{ Training: TrainingItem }>) {
