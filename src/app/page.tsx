@@ -5,13 +5,12 @@
 // import { useRouter } from 'next/navigation';
 
 // import Loading from '@/app/loading';
-import { MultiBarChart } from '@/components/graphique';
+// import React from 'react';
 
 export default function Home() {
+  throw new Error('Fucking angry');
   // const { push } = useRouter();
-
   // useEffect(() => {
   //   push('/trainings');
   // }, []);
-  return <MultiBarChart />;
 }

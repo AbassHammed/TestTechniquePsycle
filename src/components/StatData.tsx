@@ -15,12 +15,13 @@ interface StatDataProps {
 }
 
 const StatData: FC<StatDataProps> = ({ analysisID }) => {
-  const { trainings } = useTrainings();
+  const { trainings, error: erreur } = useTrainings();
   const { push } = useRouter();
   const [analysis, setAnalysis] = useState<Analysis>();
   const [isLoading, setIsLoading] = useState(true);
   const [labels, setLabels] = useState<string[]>(['']);
   const [labelCount, setLabelCount] = useState({ first: 0, second: 0 });
+  const [error, setError] = useState<Error | null>();
 
   const handlePost = async () => {
     const res = await postTrainingData();
@@ -29,9 +30,13 @@ const StatData: FC<StatDataProps> = ({ analysisID }) => {
 
   useEffect(() => {
     const fetchAnalysis = async () => {
-      const data = await getAnalysis(analysisID);
-      setAnalysis(data);
-      setLabels(getLablesNames(data));
+      try {
+        const data = await getAnalysis(analysisID);
+        setAnalysis(data);
+        setLabels(getLablesNames(data));
+      } catch (error) {
+        setError(error as Error);
+      }
     };
 
     fetchAnalysis();
@@ -39,17 +44,26 @@ const StatData: FC<StatDataProps> = ({ analysisID }) => {
 
   useEffect(() => {
     const fetchCount = async () => {
-      if (labels.length >= 2) {
-        const firstLabel = await getLabelsCount(labels[0]);
-        const secondLabel = await getLabelsCount(labels[1]);
+      try {
+        if (labels.length >= 2) {
+          const firstLabel = await getLabelsCount(labels[0]);
+          const secondLabel = await getLabelsCount(labels[1]);
 
-        setLabelCount({ first: firstLabel.count, second: secondLabel.count });
+          setLabelCount({ first: firstLabel.count, second: secondLabel.count });
+        }
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     fetchCount();
   }, [labels]);
+
+  if (error || erreur) {
+    throw new Error(erreur?.message || error?.message);
+  }
 
   if (isLoading) {
     return <Loading />;

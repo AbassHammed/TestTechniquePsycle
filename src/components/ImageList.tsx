@@ -43,15 +43,24 @@ const ImageCard: FC<ImageCardProps> = ({ CardData }) => (
 const ImageList = () => {
   const [data, setData] = useState<DataArray>([]);
   const [filter, setFilter] = useState<'all' | 'bonne' | 'cassée'>('all');
+  const [error, setError] = useState<Error | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getData();
-      setData(res);
+      try {
+        const res = await getData();
+        setData(res);
+      } catch (error) {
+        setError(error as Error);
+      }
     };
 
     fetchData();
   }, []);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   const filteredData = data.filter(card => {
     if (filter === 'all') {

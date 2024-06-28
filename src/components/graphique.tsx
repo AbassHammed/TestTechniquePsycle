@@ -19,6 +19,10 @@ export function MultiBarChart() {
     fetchTrainingResult();
   }, []);
 
+  if (!trainingResults) {
+    return <div>Loading</div>;
+  }
+
   const data = trainingResults.map(analysis => {
     const selectedSet = analysis[dataSet];
     const classScores = selectedSet ? selectedSet['f1-score'] : [];
@@ -40,13 +44,13 @@ export function MultiBarChart() {
         <option value="validation_set">Validation Set</option>
       </select>
 
-      <BarChart width={800} height={400} data={data}>
+      <BarChart width={300} height={230} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis domain={[0, 100]} tickFormatter={value => `${value}%`} />
         <Tooltip formatter={(value: number | string) => `${(value as number).toFixed(2)}%`} />
         <Legend />
-        <Bar dataKey="value" fill="#8884d8" stackId={dataSet} barSize={40} />
+        <Bar dataKey="value" fill="#8884d8" stackId={dataSet} barSize={30} />
       </BarChart>
     </div>
   );
