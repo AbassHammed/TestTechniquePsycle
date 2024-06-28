@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { getTraining } from '@/app/actions';
+import Loading from '@/app/loading';
 import { ImageList, NavBar, StatData, TopBar, TrainingInfo } from '@/components';
 import { TrainingItem } from '@/types';
 
@@ -28,7 +29,7 @@ export default function Page({ params }: Readonly<{ params: { slug: string } }>)
   }
 
   if (!analysis) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   return (

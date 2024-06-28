@@ -1,3 +1,10 @@
+/*
+Le hook useTrainings permet de récupérer les informations de toutes les apprentissages.
+Il retourne un objet contenant les informations (TrainingArray cf. types/index.ts) des apprentissages,
+l'état de chargement et les éventuelles erreurs.
+Le hook effectue une requête à l'API toutes les 1 secondes pour mettre à jour les informations des apprentissages.
+ */
+
 'use client';
 
 import { useEffect, useState } from 'react';

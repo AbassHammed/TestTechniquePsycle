@@ -4,16 +4,23 @@ import React, { useState } from 'react';
 
 import useTraining from '@/hooks/useTraining';
 
+import TrainingResult from './TrainingResult';
+
 interface TrainingInfoProps {
   TrainingID: string;
 }
 
 const TrainingInfo: React.FC<TrainingInfoProps> = ({ TrainingID }) => {
-  const { training } = useTraining(TrainingID);
+  const { training, error } = useTraining(TrainingID);
   const [showLog, setShowLog] = useState(false);
   const logLines = training?.logs.split('\r');
+  const isDone = training?.progress === 100;
 
-  return (
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return !isDone ? (
     <div className="flex flex-col px-4 my-4 w-full">
       <div className="flex justify-between w-full">
         <span className="uppercase font-medium text-[10px]">aprrentissage en cours</span>
@@ -46,6 +53,8 @@ const TrainingInfo: React.FC<TrainingInfoProps> = ({ TrainingID }) => {
         </div>
       )}
     </div>
+  ) : (
+    <TrainingResult analysisID={TrainingID} />
   );
 };
 export default TrainingInfo;

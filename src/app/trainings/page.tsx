@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { getTrainings } from '@/app/actions';
+import Loading from '@/app/loading';
 
 export default function TrainingPage() {
   const { push } = useRouter();
@@ -22,5 +23,5 @@ export default function TrainingPage() {
     fetchAndRedirect();
   }, []);
 
-  return <div>Hammed aabass</div>;
+  return <Loading />;
 }

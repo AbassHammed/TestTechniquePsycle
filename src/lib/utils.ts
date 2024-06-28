@@ -1,12 +1,15 @@
+/*
+Fonctions utilitaires.
+getLablesNames: retourne un tableau des noms des labels d'une analyse.
+getAllTrainingResultWithId: retourne un tableau de tous les résultats d'apprentissages (utile pour le barChart),
+
+amelioration:
+gestion des erreurs
+*/
+
 import { getTrainingResult, getTrainings } from '@/app/actions';
 import { Analysis, TrainingResult } from '@/types';
 
-/**
- * Returns an array of label names from an Analysis object.
- *
- * @param {Analysis} analysis - The Analysis object containing labels.
- * @return {string[]} An array of label names.
- */
 export function getLablesNames(analysis: Analysis): string[] {
   const labelNames: string[] = [];
 

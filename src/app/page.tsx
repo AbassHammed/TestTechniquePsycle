@@ -1,16 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-// import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-// import Loading from '@/app/loading';
-// import React from 'react';
+import Loading from '@/app/loading';
 
 export default function Home() {
-  throw new Error('Fucking angry');
-  // const { push } = useRouter();
-  // useEffect(() => {
-  //   push('/trainings');
-  // }, []);
+  const { push } = useRouter();
+
+  useEffect(() => {
+    push('/trainings');
+  }, []);
+
+  return <Loading />;
 }

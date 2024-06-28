@@ -13,12 +13,6 @@ export default function Training({ Training }: Readonly<{ Training: TrainingItem
   const href = `/trainings/${Training.id}`;
   const isActive = href === pathname;
 
-  /**
-   * Formats a given date string into a formatted date and time string.
-   *
-   * @param {string} dateStr - The date string to be formatted.
-   * @return {string} The formatted date and time string in the format "DD/MM/YYYY à HHhMM".
-   */
   function formatDatetime(dateStr: string): string {
     const dateObj = new Date(dateStr);
 

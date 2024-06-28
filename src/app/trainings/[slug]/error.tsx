@@ -1,31 +1,24 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
-export default function Error() {
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    window.history.back();
-  };
-
+export default function Error({ error }: { error: Error & { digest?: string } }) {
   return (
     <main>
       <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-start h-screen md:px-8">
         <div className="max-w-lg mx-auto flex-1 flex-row-reverse gap-12 items-center justify-between md:max-w-none md:flex">
           <div className="flex-1 max-w-lg">
-            <Image src="/404.svg" alt="" />
+            <Image src="/404.svg" alt="" width={500} height={500} priority />
           </div>
           <div className="mt-12 flex-1 max-w-lg space-y-3 md:mt-0">
-            <h3 className="text-indigo-600 font-semibold">404 Error</h3>
-            <p className="text-gray-800 text-4xl font-semibold sm:text-5xl">Page not found</p>
-            <p className="text-gray-600">
-              Sorry, the page you are looking for could not be found or has been removed.
-            </p>
-            <a
-              href="#"
-              onClick={handleClick}
+            <h3 className="text-indigo-600 font-semibold">500 (Internal Server Error)</h3>
+            <p className="text-gray-800 text-4xl font-semibold sm:text-5xl">Page non trouvée</p>
+            <p className="text-gray-600">{error.message}</p>
+            <Link
+              href="/"
               className="text-indigo-600 duration-150 hover:text-indigo-400 font-medium inline-flex items-center gap-x-1">
-              Go back
+              Retour à l&apos;accueil
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -37,7 +30,7 @@ export default function Error() {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

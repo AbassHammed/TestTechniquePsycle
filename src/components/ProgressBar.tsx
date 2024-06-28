@@ -7,14 +7,6 @@ interface CircularProgressBarProps {
   size?: number;
 }
 
-/**
- * Renders a circular progress bar component.
- *
- * @param {CircularProgressBarProps} props - The props for the component.
- * @param {number} props.progress - The progress of the bar, between 0 and 100.
- * @param {number} [props.size=20] - The size of the bar, in pixels.
- * @return {JSX.Element} The rendered circular progress bar component.
- */
 const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ progress, size = 20 }) => {
   const [normalizedProgress, setNormalizedProgress] = useState(0);
 
