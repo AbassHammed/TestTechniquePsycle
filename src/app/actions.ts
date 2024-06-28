@@ -4,7 +4,7 @@
 import { Analysis, countObj, DataArray, TrainingArray, TrainingItem } from '@/types';
 
 export const getAnalysis = async (analysisID: string): Promise<Analysis> => {
-  const response = await fetch(`http://localhost:5000/analysis/${analysisID}`, {
+  const response = await fetch(`http://[::1]:5000/analysis/${analysisID}`, {
     next: { revalidate: 3600 },
   });
 
@@ -16,7 +16,7 @@ export const getAnalysis = async (analysisID: string): Promise<Analysis> => {
 };
 
 export const getTrainings = async (): Promise<TrainingArray> => {
-  const response = await fetch('http://localhost:5000/trainings');
+  const response = await fetch('http://[::1]:5000/trainings');
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -26,7 +26,7 @@ export const getTrainings = async (): Promise<TrainingArray> => {
 };
 
 export const getTraining = async (TrainingID: string): Promise<TrainingItem> => {
-  const response = await fetch(`http://localhost:5000/trainings/${TrainingID}`);
+  const response = await fetch(`http://[::1]:5000/trainings/${TrainingID}`);
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -36,7 +36,7 @@ export const getTraining = async (TrainingID: string): Promise<TrainingItem> => 
 };
 
 export const getLabelsCount = async (label: string): Promise<countObj> => {
-  const response = await fetch(`http://localhost:5000/data/count?label=${label}`);
+  const response = await fetch(`http://[::1]:5000/data/count?label=${label}`);
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -46,7 +46,7 @@ export const getLabelsCount = async (label: string): Promise<countObj> => {
 };
 
 export const getData = async (): Promise<DataArray> => {
-  const response = await fetch('http://localhost:5000/data', { next: { revalidate: 180 } });
+  const response = await fetch('http://[::1]:5000/data', { next: { revalidate: 180 } });
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -56,7 +56,17 @@ export const getData = async (): Promise<DataArray> => {
 };
 
 export const getTrainingResult = async (TrainingID: string) => {
-  const response = await fetch(`http://localhost:5000/trainings/${TrainingID}/result`);
+  const response = await fetch(`http://[::1]:5000/trainings/${TrainingID}/result`);
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  return response.json();
+};
+
+export const getDataCount = async (): Promise<countObj> => {
+  const response = await fetch('http://[::1]:5000/data/count');
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -67,7 +77,7 @@ export const getTrainingResult = async (TrainingID: string) => {
 
 export async function postTrainingData(): Promise<TrainingItem> {
   try {
-    const response = await fetch('http://localhost:5000/trainings', {
+    const response = await fetch('http://[::1]:5000/trainings', {
       method: 'POST',
     });
 

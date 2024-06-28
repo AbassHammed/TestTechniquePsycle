@@ -6,7 +6,7 @@
 
 import React, { Dispatch, FC, useEffect, useState } from 'react';
 
-import { getTrainingResult } from '@/app/actions';
+import { getDataCount, getTrainingResult } from '@/app/actions';
 import { getAllTrainingResultWithId } from '@/lib/utils';
 import { TrainingResult } from '@/types';
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
@@ -15,7 +15,7 @@ interface MultiBarChartProps {
   dataSet: 'train_set' | 'validation_set';
 }
 
-export const MultiBarChart: FC<MultiBarChartProps> = ({ dataSet }) => {
+const MultiBarChart: FC<MultiBarChartProps> = ({ dataSet }) => {
   const [trainingResults, setTrainingResults] = useState<TrainingResult[]>();
 
   useEffect(() => {
@@ -62,11 +62,7 @@ interface ConfusionMatrixProps {
   dataSet: 'train_set' | 'validation_set';
 }
 
-export const ConfusionMatrix: React.FC<ConfusionMatrixProps> = ({
-  analysisID,
-  dataSet,
-  setDataSet,
-}) => {
+const ConfusionMatrix: React.FC<ConfusionMatrixProps> = ({ analysisID, dataSet, setDataSet }) => {
   const [trainingResult, setTrainingResult] = useState<TrainingResult>();
 
   useEffect(() => {
@@ -88,12 +84,12 @@ export const ConfusionMatrix: React.FC<ConfusionMatrixProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  p-4">
+    <div className="flex flex-col items-center justify-center p-4 gap-8">
       <div className="relative">
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-muted-foreground -mr-4">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full font-medium text-[#9e9e9e] text-[10px] -mr-4">
           Annotations
         </div>
-        <div className="absolute top-1/2 left-0 transform -translate-x-full -translate-y-1/2 rotate-[-90deg] text-muted-foreground -mr-4">
+        <div className="absolute top-1/2 left-0 transform -translate-x-full -translate-y-1/2 rotate-[-90deg] font-medium text-[#9e9e9e] text-[10px] -mr-4">
           Prédictions
         </div>
         <table className="border-collapse border">
@@ -134,14 +130,65 @@ export const ConfusionMatrix: React.FC<ConfusionMatrixProps> = ({
           </tbody>
         </table>
         <div className="flex justify-end">
+          <span>Données :</span>
           <select
             value={dataSet}
             onChange={e => setDataSet(e.target.value as 'train_set' | 'validation_set')}>
-            <option value="train_set">Train Set</option>
-            <option value="validation_set">Validation Set</option>
+            <option value="train_set">Test</option>
+            <option value="validation_set">Validation</option>
           </select>
         </div>
       </div>
     </div>
   );
 };
+
+interface RecommendationProps {
+  analysisID: string;
+}
+const Recommendations: React.FC<RecommendationProps> = ({ analysisID }) => {
+  const [data, setData] = useState({ count: 0, TFalsePositive: 0, VFalsePostive: 0 });
+  const [error, setError] = useState<Error | null>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getDataCount();
+        const trainingResult: TrainingResult = await getTrainingResult(analysisID);
+        setData({
+          count: res.count,
+          TFalsePositive: trainingResult.train_set.confusion_matrix[0][1],
+          VFalsePostive: trainingResult.validation_set.confusion_matrix[0][1],
+        });
+      } catch (error) {
+        setError(error as Error);
+      }
+    };
+
+    fetchData();
+  }, [analysisID]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (
+    <div className="p-4">
+      <h3 className="text-lg font-semibold mb-2">RECOMMENDATIONS</h3>
+      <ul className="list-disc pl-5">
+        <li className="mb-2">
+          <strong>Les données de test sont à revoir :</strong>{' '}
+          {`sur ${data.count} données de test, ${data.TFalsePositive} données
+          bonnes ont été identifiées mauvaises par l'algorithme.`}
+        </li>
+        <li className="mb-2">
+          <strong>Les données d&apos;entrainement sont à revoir :</strong>{' '}
+          {`sur ${data.count} données de validation, ${data.VFalsePostive}
+         données bonnes ont été identifiées mauvaises par l'algorithme.`}
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export { ConfusionMatrix, MultiBarChart, Recommendations };

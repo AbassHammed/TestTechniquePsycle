@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ConfusionMatrix, MultiBarChart } from './graphique';
+import { ConfusionMatrix, MultiBarChart, Recommendations } from './graphique';
 
 type TrainingResultProps = {
   analysisID: string;
@@ -19,7 +19,11 @@ const TrainingResult: React.FC<TrainingResultProps> = ({ analysisID }) => {
         <MultiBarChart dataSet={dataSet} />
       </div>
 
-      <ConfusionMatrix analysisID={analysisID} dataSet={dataSet} setDataSet={setDataSet} />
+      <div className="flex mx-10">
+        <ConfusionMatrix analysisID={analysisID} dataSet={dataSet} setDataSet={setDataSet} />
+      </div>
+
+      <Recommendations analysisID={analysisID} />
     </div>
   );
 };
