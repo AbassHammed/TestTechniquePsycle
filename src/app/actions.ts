@@ -3,10 +3,13 @@
 
 import { Analysis, countObj, DataArray, TrainingArray, TrainingItem } from '@/types';
 
+// Ces méthodes sont des fonctions asynchrones qui effectuent des appels HTTP à un serveur local pour obtenir ou envoyer des données spécifiques.
+// Chaque fonction utilise l'API Fetch pour faire une requête et traite la réponse. Si la réponse n'est pas correcte (status code 200), une erreur est lancée.
+
 export const getAnalysis = async (analysisID: string): Promise<Analysis> => {
-  const response = await fetch(`http://[::1]:5000/analysis/${analysisID}`, {
-    next: { revalidate: 3600 },
-  });
+  // récupère une analyse spécifique en fonction de l'ID fourni
+  // l'URL de l'API inclut l'ID de l'analyse
+  const response = await fetch(`http://[::1]:5000/analysis/${analysisID}`);
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -16,6 +19,7 @@ export const getAnalysis = async (analysisID: string): Promise<Analysis> => {
 };
 
 export const getTrainings = async (): Promise<TrainingArray> => {
+  // Cette fonction récupère toutes les apprentissages
   const response = await fetch('http://[::1]:5000/trainings');
 
   if (!response.ok) {
@@ -26,6 +30,7 @@ export const getTrainings = async (): Promise<TrainingArray> => {
 };
 
 export const getTraining = async (TrainingID: string): Promise<TrainingItem> => {
+  // récupère un apprentissage spécifique en fonction de l'ID fourni
   const response = await fetch(`http://[::1]:5000/trainings/${TrainingID}`);
 
   if (!response.ok) {
@@ -36,6 +41,7 @@ export const getTraining = async (TrainingID: string): Promise<TrainingItem> => 
 };
 
 export const getLabelsCount = async (label: string): Promise<countObj> => {
+  // récupère le nombre d'éléments pour un label spécifique.
   const response = await fetch(`http://[::1]:5000/data/count?label=${label}`);
 
   if (!response.ok) {
@@ -46,7 +52,9 @@ export const getLabelsCount = async (label: string): Promise<countObj> => {
 };
 
 export const getData = async (): Promise<DataArray> => {
-  const response = await fetch('http://[::1]:5000/data', { next: { revalidate: 180 } });
+  // récupère toutes les données disponibles.
+  // On pourrait cache et revalidate ici, les données ne changent pas d'après les données de l'API
+  const response = await fetch('http://[::1]:5000/data');
 
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -56,6 +64,7 @@ export const getData = async (): Promise<DataArray> => {
 };
 
 export const getTrainingResult = async (TrainingID: string) => {
+  // Cette fonction récupère le résultat d'un apprentissage spécifique
   const response = await fetch(`http://[::1]:5000/trainings/${TrainingID}/result`);
 
   if (!response.ok) {
@@ -66,6 +75,7 @@ export const getTrainingResult = async (TrainingID: string) => {
 };
 
 export const getDataCount = async (): Promise<countObj> => {
+  // récupère le nombre total de données.
   const response = await fetch('http://[::1]:5000/data/count');
 
   if (!response.ok) {
@@ -76,6 +86,8 @@ export const getDataCount = async (): Promise<countObj> => {
 };
 
 export async function postTrainingData(): Promise<TrainingItem> {
+  // Cette fonction envoie une requête POST pour créer un nouveau apprentissage.
+  // Si une erreur se produit pendant l'envoi de la requête, une erreur est lancée.
   try {
     const response = await fetch('http://[::1]:5000/trainings', {
       method: 'POST',

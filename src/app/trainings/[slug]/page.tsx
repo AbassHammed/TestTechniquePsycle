@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 
 import { getTraining, getTrainings } from '@/app/actions';
@@ -66,6 +67,9 @@ export default function Page({ params }: Readonly<{ params: { slug: string } }>)
 
   return (
     <div className="flex flex-row h-screen">
+      <Head>
+        <title>{training.name}</title>
+      </Head>
       <NavBar />
       <div className="flex-auto space-y-4 max-h-screen overflow-y-auto">
         <TopBar TrainingName={training.name} />

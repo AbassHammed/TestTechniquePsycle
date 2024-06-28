@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+// UI affiché lorsqu'une erreur est détectée dans l'application.
 export default function Error({ error }: { error: Error & { digest?: string } }) {
   return (
     <main>

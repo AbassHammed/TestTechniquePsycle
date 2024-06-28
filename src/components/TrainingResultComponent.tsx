@@ -1,5 +1,5 @@
 /*
-
+Le diagramme en barre, la matrice de confusion et les recommandations.
 */
 
 'use client';

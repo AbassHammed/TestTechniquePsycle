@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 
 import Loading from '@/app/loading';
 
+// redirection sur le dernier apprentissage
+
 export default function Home() {
   const { push } = useRouter();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ConfusionMatrix, MultiBarChart, Recommendations } from './graphique';
+import { ConfusionMatrix, MultiBarChart, Recommendations } from './TrainingResultComponent';
 
 type TrainingResultProps = {
   analysisID: string;

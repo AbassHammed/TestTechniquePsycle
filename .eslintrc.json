@@ -1,3 +1,8 @@
+/*
+.eslint.json template
+https://gist.github.com/AbassHammed/aa475fff057a47968d778f46fa6bd3f2
+*/
+
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
