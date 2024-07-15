@@ -122,8 +122,27 @@ class App:
 
         @self._app.route("/data")
         def data():
+            label_arg = request.args.get("label", None)
+            matching_data = (
+                [
+                    d
+                    for d in self._data
+                    if d["annotations"][0]["annotation"]["name"] == label_arg
+                ]
+                if label_arg is not None
+                else self._data
+            )
+            data = sorted(matching_data, key=lambda x: x["id"])
+            try:
+                page = int(request.args.get("page", 1))
+            except TypeError:
+                return "", 400
+            offset = (page - 1) * self._page_size
+            limit = offset + self._page_size
+            if page < 1 or len(data) < offset:
+                return "", 416
             return (
-                json.dumps(self._data),
+                json.dumps(data[offset:limit]),
                 200,
                 {"content-type": "application/json"},
             )

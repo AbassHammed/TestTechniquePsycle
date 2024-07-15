@@ -75,6 +75,7 @@ export default function Page({ params }: Readonly<{ params: { slug: string } }>)
         <TopBar TrainingName={training.name} />
         <TrainingInfo TrainingID={params.slug} />
         <ImageList />
+        {/** */}
       </div>
       <StatData analysisID={training.analysis_id.toString()} />
     </div>

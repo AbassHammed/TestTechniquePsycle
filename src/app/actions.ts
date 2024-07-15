@@ -51,10 +51,10 @@ export const getLabelsCount = async (label: string): Promise<countObj> => {
   return response.json();
 };
 
-export const getData = async (): Promise<DataArray> => {
+export const getData = async (page: string = '1'): Promise<DataArray> => {
   // récupère toutes les données disponibles.
   // On pourrait cache et revalidate ici, les données ne changent pas d'après les données de l'API
-  const response = await fetch('http://[::1]:5000/data');
+  const response = await fetch(`http://[::1]:5000/data?page=${page}`);
 
   if (!response.ok) {
     throw new Error(response.statusText);

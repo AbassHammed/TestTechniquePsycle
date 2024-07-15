@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
-import { getData } from '@/app/actions';
+import { getData, getDataCount } from '@/app/actions';
 import { Annotation, DataArray, DataItem } from '@/types';
 
 interface ImageCardProps {
@@ -44,11 +44,13 @@ const ImageList = () => {
   const [data, setData] = useState<DataArray>([]);
   const [filter, setFilter] = useState<'all' | 'bonne' | 'cassée'>('all');
   const [error, setError] = useState<Error | null>();
+  const [actualPage, setActual] = useState(1);
+  const [countArray, setCountArray] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getData();
+        const res = await getData(actualPage.toString());
         setData(res);
       } catch (error) {
         setError(error as Error);
@@ -56,6 +58,24 @@ const ImageList = () => {
     };
 
     fetchData();
+  }, [actualPage]);
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const count = await getDataCount();
+        const dividedData = count.count / 20;
+        const arr: number[] = [];
+        for (let i = 1; i <= dividedData; i++) {
+          arr.push(i);
+        }
+        setCountArray(arr);
+      } catch (error) {
+        setError(error as Error);
+      }
+    };
+
+    fetchCount();
   }, []);
 
   if (error) {
@@ -94,6 +114,17 @@ const ImageList = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
         {filteredData.map(card => (
           <ImageCard key={card.id} CardData={card} />
+        ))}
+      </div>
+
+      <div className="flex my-6 space-x-2 justify-center">
+        {countArray.map(count => (
+          <button
+            className="h-6 w-6 rounded bg-gray-200 cursor-pointer text-center"
+            key={count}
+            onClick={() => setActual(count)}>
+            {count}
+          </button>
         ))}
       </div>
     </div>
